@@ -21,6 +21,7 @@ def computeKeypointsAndDescriptors(image, sigma=1.6, num_intervals=3, assumed_bl
     image = image.astype('float32')
     base_image = generateBaseImage(image, sigma, assumed_blur)
     num_octaves = computeNumberOfOctaves(base_image.shape)
+
     gaussian_kernels = generateGaussianKernels(sigma, num_intervals)
     gaussian_images = generateGaussianImages(base_image, num_octaves, gaussian_kernels)
     dog_images = generateDoGImages(gaussian_images)
@@ -45,6 +46,7 @@ def generateBaseImage(image, sigma, assumed_blur):
 def computeNumberOfOctaves(image_shape):
     """Compute number of octaves in image pyramid as function of base image shape (OpenCV default)
     """
+    # log(min(image_shape)) / log(2)  == log2(min(image_shape))
     return int(round(log(min(image_shape)) / log(2) - 1))
 
 def generateGaussianKernels(sigma, num_intervals):
